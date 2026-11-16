@@ -449,7 +449,7 @@ export class Studio {
       `> **Generated:** ${when.toISOString().replace("T", " ").slice(0, 16)} UTC  `,
       `> **Model:** ${m.model || "not recorded"}  `,
       `> **Settings:** ${s.audience || "general audience"} · ${s.tone} · ${s.language} · ${s.videoMinutes}-minute video · ${s.threadPosts}-post thread  `,
-      `> **Made with:** Creator Agent Studio (https://creator-agent-studio.pages.dev)${this.collab?.status === "answered" ? ` + partner site Hook Lab (${this.collab.url}), which answered in ${this.collab.seconds}s` : ""}`,
+      `> **Made with:** Creator Agent Studio (https://creator-agent-studio.pages.dev)${this.collab?.status === "answered" ? ` + partner site Hook Lab (${this.collab.url})${Number.isFinite(this.collab.seconds) ? `, which answered in ${this.collab.seconds}s` : ""}` : ""}`,
       ""];
     if (this.brief) {
       const b = this.brief;
