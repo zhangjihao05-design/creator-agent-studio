@@ -1,0 +1,7 @@
+{
+  "protocol": "nsdeploy-agent-mcp/v1",
+  "network": "creator_agent_studio",
+  "front_man": "studio_producer",
+  "available": false,
+  "reason": "This is a static bundle; a public MCP facade requires an application host."
+}

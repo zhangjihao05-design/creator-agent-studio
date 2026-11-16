@@ -1,0 +1,192 @@
+{
+ "recorded": "2026-11-15",
+ "model": "gemini-3.5-flash-lite",
+ "modelCalls": 31,
+ "seconds": 95,
+ "state": {
+  "settings": {
+   "topic": "How AI agents will change the open web",
+   "audience": "Beginners",
+   "tone": "Friendly",
+   "language": "English",
+   "videoMinutes": 2,
+   "threadPosts": 5
+  },
+  "drafts": {
+   "brief": {
+    "topic": "How AI agents will change the open web",
+    "audience": "Beginners curious about how artificial intelligence is transforming everyday internet use and websites.",
+    "angle": "AI agents will bypass traditional browsing to fetch answers directly, shifting websites from human-facing destinations to machine-readable data sources.",
+    "hook": "The open web as you know it is about to die—and AI agents are holding the weapon.",
+    "keyPoints": [
+     "How AI agents fetch information instead of traditional browsing",
+     "The shift from human-facing website designs to machine-readable pages",
+     "What this means for creators, businesses, and everyday web users"
+    ],
+    "callToAction": "Drop a comment with your favorite website and let's discuss how it might look when only AI agents visit it!",
+    "factsToCheck": [
+     "AI agents can read web pages and extract data without loading human UI elements [check]",
+     "Web traffic may shift from human click-throughs to automated API calls [check]"
+    ],
+    "hookIdeas": [
+     "Your favorite websites are about to become invisible to humans.",
+     "Why typing URLs into a browser is becoming a thing of the past."
+    ]
+   },
+   "youtubeScript": {
+    "title": "How AI Agents Will Change the Open Web (For Beginners)",
+    "hook": "The open web as you know it is about to change forever—and AI agents are leading the way. Instead of clicking around endless web pages, soon you might just ask an AI to do it all for you. Let's break down how this works in plain English!",
+    "sections": [
+     {
+      "number": 1,
+      "heading": "How AI Agents Fetch Information",
+      "narration": "Think about how you usually find things online today. You open a search engine, type a question, scan a dozen links, and click around to find what you need. But AI agents do something completely different. They read the web for you in seconds, extracting exact answers without making you click through banners, pop-ups, and menus. It's like having a super-fast research assistant who never gets tired.",
+      "bRoll": "Animation of a person typing a query into a friendly AI assistant interface.",
+      "seconds": 35
+     },
+     {
+      "number": 2,
+      "heading": "The Shift to Machine-Readable Pages",
+      "narration": "Because AI agents care about facts and data rather than flashy animations and pretty designs, websites are starting to evolve. In the future, creators and businesses might design pages specifically so machines can read them easily. Your favorite sites aren't going away, but their behind-the-scenes structure is getting a major upgrade to speak fluent AI.",
+      "bRoll": "Side-by-side comparison of a busy human website vs a clean, structured data feed.",
+      "seconds": 40
+     },
+     {
+      "number": 3,
+      "heading": "What This Means for You",
+      "narration": "So, what does this mean for everyday web users and creators? For you, it means faster answers and less digital clutter. For creators, it's an exciting opportunity to share information in ways that AI can easily understand and share with the world. The open web is becoming smarter, simpler, and much more helpful.",
+      "bRoll": "Friendly creator talking to the camera with clean graphics showing future web icons.",
+      "seconds": 30
+     }
+    ],
+    "outro": "If you found this helpful, hit that subscribe button! And drop a comment below with your favorite website—let's discuss how it might look when only AI agents visit it!",
+    "description": "Discover how AI agents are transforming the open web, shifting websites from human destinations to machine-readable data sources for beginners.",
+    "targetMinutes": 2
+   },
+   "xThread": {
+    "posts": [
+     {
+      "number": 1,
+      "text": "The open web as you know it is about to change forever, and AI agents are leading the way.",
+      "weightedLength": 90
+     },
+     {
+      "number": 2,
+      "text": "Instead of browsing pages and clicking links, AI agents will fetch exact answers for you instantly.",
+      "weightedLength": 99
+     },
+     {
+      "number": 3,
+      "text": "Websites may soon be built more for machine reading than for human eyes and pretty designs.",
+      "weightedLength": 91
+     },
+     {
+      "number": 4,
+      "text": "For everyday web users, this means faster info without the usual clutter of ads and pop-ups.",
+      "weightedLength": 92
+     },
+     {
+      "number": 5,
+      "text": "Drop a comment with your favorite website and let's discuss how it might look when only AI visits!",
+      "weightedLength": 98
+     }
+    ]
+   },
+   "storyboard": {
+    "shots": [
+     {
+      "number": 1,
+      "section": "Hook & Introduction",
+      "seconds": 12,
+      "visual": "Host speaking warmly to the camera with clean modern title graphics.",
+      "camera": "Medium shot, friendly framing for solo creator speaking to camera.",
+      "onScreenText": "AI Agents & The Web",
+      "audio": "The open web as you know it is about to change forever—and AI agents are leading the way."
+     },
+     {
+      "number": 2,
+      "section": "Hook & Introduction",
+      "seconds": 12,
+      "visual": "Animation showing someone asking an AI a question instead of clicking through endless search results.",
+      "camera": "Screen recording or simple animated graphic.",
+      "onScreenText": "Old vs New Browsing",
+      "audio": "Instead of clicking around endless web pages, soon you might just ask an AI to do it all for you. Let's break down how this works in plain English!"
+     },
+     {
+      "number": 3,
+      "section": "How AI Agents Fetch Information",
+      "seconds": 12,
+      "visual": "Screen showing a search engine results page with multiple links and ads.",
+      "camera": "Close up on browser interface.",
+      "onScreenText": "Traditional Search",
+      "audio": "Think about how you usually find things online today. You open a search engine, type a question, scan a dozen links, and click around to find what you need."
+     },
+     {
+      "number": 4,
+      "section": "How AI Agents Fetch Information",
+      "seconds": 12,
+      "visual": "Animation of an AI agent cleanly pulling text out of a web page without pop-ups.",
+      "camera": "Split screen graphic showing data extraction.",
+      "onScreenText": "Instant Data Extraction",
+      "audio": "But AI agents do something completely different. They read the web for you in seconds, extracting exact answers without making you click through banners, pop-ups, and menus."
+     },
+     {
+      "number": 5,
+      "section": "How AI Agents Fetch Information",
+      "seconds": 11,
+      "visual": "Host gesturing naturally to emphasize the convenience of AI assistants.",
+      "camera": "Medium shot of host.",
+      "onScreenText": "Your Research Assistant",
+      "audio": "It's like having a super-fast research assistant who never gets tired."
+     },
+     {
+      "number": 6,
+      "section": "The Shift to Machine-Readable Pages",
+      "seconds": 14,
+      "visual": "Side-by-side comparison of a colorful human-facing website versus a clean, structured code view.",
+      "camera": "Graphic comparing two website designs.",
+      "onScreenText": "Human vs Machine Web",
+      "audio": "Because AI agents care about facts and data rather than flashy animations and pretty designs, websites are starting to evolve."
+     },
+     {
+      "number": 7,
+      "section": "The Shift to Machine-Readable Pages",
+      "seconds": 14,
+      "visual": "Host smiling and nodding at the camera, talking about backend web upgrades.",
+      "camera": "Medium shot of host with subtle background graphics.",
+      "onScreenText": "Speaking Fluent AI",
+      "audio": "In the future, creators and businesses might design pages specifically so machines can read them easily. Your favorite sites aren't going away, but their behind-the-scenes structure is getting a major upgrade to speak fluent AI."
+     },
+     {
+      "number": 8,
+      "section": "What This Means for You",
+      "seconds": 10,
+      "visual": "Graphics highlighting speed, clean interfaces, and helpful data badges.",
+      "camera": "Clean motion graphics showing speed and simplicity.",
+      "onScreenText": "Faster Answers, Less Clutter",
+      "audio": "So, what does this mean for everyday web users and creators? For you, it means faster answers and less digital clutter."
+     },
+     {
+      "number": 9,
+      "section": "What This Means for You",
+      "seconds": 10,
+      "visual": "Host speaking enthusiastically directly to the viewer.",
+      "camera": "Medium shot of host.",
+      "onScreenText": "An Exciting Future",
+      "audio": "For creators, it's an exciting opportunity to share information in ways that AI can easily understand and share with the world. The open web is becoming smarter, simpler, and much more helpful."
+     },
+     {
+      "number": 10,
+      "section": "Outro",
+      "seconds": 13,
+      "visual": "Host smiling with graphic overlays for subscribing and leaving a comment.",
+      "camera": "Medium shot with subscribe and comment overlays.",
+      "onScreenText": "Subscribe & Comment!",
+      "audio": "If you found this helpful, hit that subscribe button! And drop a comment below with your favorite website—let's discuss how it might look when only AI agents visit it!"
+     }
+    ],
+    "totalSeconds": 120
+   }
+  }
+ }
+}

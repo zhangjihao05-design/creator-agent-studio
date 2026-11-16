@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Creator Agent Studio · one topic, four agents, every format</title>
+    <meta name="description" content="An open agentic website: a producer agent and four specialists turn one topic into a creative brief, a YouTube script, an X thread and a storyboard, running in your browser on Chrome's built-in Gemini Nano (no key) or your own AI key.">
+    <link rel="stylesheet" href="assistant.css">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="js/page.js"></script>
+    <script type="module" src="site.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Open Agentic Web · runs in your browser</p>
+        <h1>One topic in. A YouTube script, an X thread and a storyboard out.</h1>
+        <p class="lede">A producer agent directs four specialists (strategist, scriptwriter, thread writer and storyboard artist), and each one writes its draft straight onto this page. Run it free on your own device with Chrome's built-in Gemini Nano, or bring any AI key. Nothing runs on our server.</p>
+        <ol class="team" aria-label="The agent team">
+          <li><strong>Producer</strong><span>plans the job</span></li>
+          <li><strong>Strategist</strong><span>angle, hook, key points</span></li>
+          <li><strong>Scriptwriter</strong><span>timed YouTube script</span></li>
+          <li><strong>Storyboard artist</strong><span>shot list</span></li>
+          <li><strong>Thread writer</strong><span>X thread, length-checked</span></li>
+          <li class="partner"><strong>Hook Lab ↗</strong><span>partner site: ranks hooks</span></li>
+        </ol>
+        <p class="hero-cta">
+          <button type="button" id="replay" class="replay-cta">▶ Watch a recorded run</button>
+          <span>No key, no wait: about 30 seconds of a real two-site Gemini run filling every panel below.</span>
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="card settings" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">1. Your topic</h2>
+        <form id="studio-form" novalidate>
+          <label class="wide">Topic
+            <input id="topic" name="topic" maxlength="300" placeholder="e.g. Why most people quit learning a language in month two" required>
+          </label>
+          <p class="examples">Try an example (fills the form):
+            <button type="button" class="chip" data-example="How to move on after a friendship ends" data-audience="Young adults" data-tone="Friendly">Moving on after a friendship</button>
+            <button type="button" class="chip" data-example="How AI agents will change the open web" data-audience="Curious tech fans" data-tone="Expert">AI agents on the web</button>
+            <button type="button" class="chip" data-example="How to price your first freelance project" data-audience="New freelancers" data-tone="Expert">Pricing a freelance project</button>
+            <button type="button" id="run-example" class="primary small">⚡ Fill an example and run</button>
+          </p>
+          <label>Audience
+            <input id="audience" name="audience" maxlength="200" placeholder="e.g. college students">
+          </label>
+          <label>Tone <select id="tone" name="tone"></select></label>
+          <label>Output language <select id="language" name="language"></select></label>
+          <label>Video minutes <input id="videoMinutes" name="videoMinutes" type="number" min="1" max="20" step="0.5"></label>
+          <label>Thread posts <input id="threadPosts" name="threadPosts" type="number" min="3" max="12" step="1"></label>
+          <label class="wide check"><input id="use-hooklab" type="checkbox" checked> Ask the partner site <a href="https://creator-hook-lab.pages.dev/">Hook Lab</a> for hooks first (sends your topic there; waits at most 20 seconds)</label>
+          <div class="wide actions">
+            <button type="submit" class="primary">Generate with agents</button>
+            <button type="button" id="run-nano" class="ghost">No key? Run free on this device</button>
+            <span id="form-status" role="status"></span>
+          </div>
+          <p id="nano-note" class="wide small" hidden></p>
+          <div class="wide">
+            <ol id="replay-log" class="replay-log" aria-live="polite"></ol>
+          </div>
+        </form>
+      </section>
+
+      <section id="assistant" class="assistant" aria-labelledby="assistant-heading">
+        <h2 id="assistant-heading">2. Talk to the producer</h2>
+        <p>Watch the agents hand work to each other, or ask for changes: “make the hook punchier”, “4 posts only”, “add a shot for the intro”.</p>
+        <p class="assistant-note">Your messages and the studio's drafts go only to the model you choose: Gemini Nano on your own device, or a provider on your own key. You confirm before anything opens on X.</p>
+        <figure class="graph-card" aria-labelledby="graph-heading">
+          <figcaption id="graph-heading">Live agent map · two websites, one run</figcaption>
+          <div id="agent-graph"></div>
+        </figure>
+        <p id="assistant-status" role="status">Connecting the agents… If this message stays, they could not load. You can still use the page directly.</p>
+        <div id="agent-app">
+          <div data-ns-slot="header"></div>
+          <div class="assistant-panels">
+            <div data-ns-slot="chat"></div>
+            <div data-ns-slot="agents"></div>
+          </div>
+          <div data-ns-slot="settings"></div>
+        </div>
+      </section>
+
+      <section id="results" class="outputs" aria-labelledby="outputs-heading">
+        <div class="outputs-head">
+          <h2 id="outputs-heading">3. Your content package</h2>
+          <div class="export">
+            <button type="button" id="copy-md" class="primary small">Copy all</button>
+            <button type="button" id="download-md" class="ghost">Download .md</button>
+            <button type="button" id="download-srt" class="ghost">Subtitles .srt</button>
+            <button type="button" id="download-thread" class="ghost">Thread .txt</button>
+            <button type="button" id="download-csv" class="ghost">Shot list .csv</button>
+            <span id="export-status" role="status"></span>
+          </div>
+        </div>
+        <div id="collab-card" class="collab" hidden aria-live="polite"></div>
+        <div class="grid">
+          <article class="card" id="brief-card">
+            <header><h3>Creative brief</h3><span class="tag">Strategist</span><button type="button" class="small retry" data-retry="brief" hidden>Retry this agent</button><button type="button" class="ghost small" data-clear="brief">Clear</button></header>
+            <div id="brief-body"></div>
+          </article>
+          <article class="card" id="script-card">
+            <header><h3>YouTube script</h3><span class="tag">Scriptwriter</span><button type="button" class="small retry" data-retry="youtubeScript" hidden>Retry this agent</button><button type="button" class="ghost small" data-clear="youtubeScript">Clear</button></header>
+            <div id="script-body"></div>
+          </article>
+          <article class="card" id="thread-card">
+            <header><h3>X thread</h3><span class="tag">Thread writer</span><button type="button" class="small retry" data-retry="xThread" hidden>Retry this agent</button><button type="button" class="ghost small" data-clear="xThread">Clear</button></header>
+            <div id="thread-body"></div>
+          </article>
+          <article class="card span2" id="storyboard-card">
+            <header><h3>Storyboard</h3><span class="tag">Storyboard artist</span><button type="button" class="small retry" data-retry="storyboard" hidden>Retry this agent</button><button type="button" class="ghost small" data-clear="storyboard">Clear</button></header>
+            <div id="storyboard-body"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card about" aria-labelledby="about-heading">
+        <h2 id="about-heading">Open by design</h2>
+        <p>This is an open agentic website. Its agent network is public JSON (<a href="creator_agent_studio.network.json">creator_agent_studio.network.json</a>, listed in <a href="agent-manifest.json">agent-manifest.json</a>) and runs entirely in your browser. Other agentic websites can call it at <code id="network-url">this-site/creator_agent_studio</code> to get a brief, an outline and a thread for their own visitors. It also calls a partner site, <a id="hooklab-link" href="https://creator-hook-lab.pages.dev/">Hook Lab</a>, where a writer agent and a critic agent rank hooks for your topic; you see a card and choose before anything is sent there.</p>
+        <p class="small">It drafts; it does not publish, upload, schedule, or make images, video or voice. Check any fact marked [check] before you post.</p>
+      </section>
+    </main>
+    <footer class="wrap small">Creator Agent Studio · built for the Open Agentic Web Challenge · runtime: nsDeploy browser runtime (Apache-2.0) · <a href="LICENSE">LICENSE</a><br><span class="copyright">© 2026 Creator Agent Studio — a project by Jinhua Xu and Jinghao Zhang. All rights reserved. This website, its agent-network design, and its content are the original work of the project team. No license is granted to copy, redistribute, or re-publish this site or its code without prior written permission from the authors.</span></footer>
+    <script type="module">
+      const url = new URL("creator_agent_studio", new URL("./", location.href));
+      document.getElementById("network-url").textContent = url.href;
+    </script>
+  </body>
+</html>

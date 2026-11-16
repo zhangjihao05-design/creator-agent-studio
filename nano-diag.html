@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gemini Nano diagnostics · Creator Agent Studio</title>
+<style>
+  body { font: 14px/1.45 system-ui, sans-serif; margin: 24px; color: #111; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  #status { margin: 10px 0; font-weight: 600; }
+  table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  th, td { border: 1px solid #bbb; padding: 6px 8px; vertical-align: top; text-align: left; }
+  th { background: #f0f0f0; }
+  td.reply { font-family: ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; max-width: 520px; }
+  .bad { background: #ffe3e3; } .good { background: #e3ffe6; }
+  pre { background: #f6f6f6; padding: 10px; white-space: pre-wrap; word-break: break-word; }
+  button { font-size: 14px; padding: 6px 12px; }
+</style>
+</head>
+<body>
+<h1>Gemini Nano diagnostics</h1>
+<p>Runs on-device tests with Chrome's built-in model and prints every result here. Nothing leaves this computer. Keep this tab open until the status says DONE.</p>
+<p><button id="run">Run again</button> <button id="copy">Copy results as text</button></p>
+<div id="status">Starting…</div>
+<h2 style="font-size:16px">Environment</h2>
+<pre id="env"></pre>
+<h2 style="font-size:16px">Tests</h2>
+<table>
+  <thead><tr><th>Test</th><th>ms</th><th>temperature / topK (session)</th><th>inputQuota / usage</th><th>Echo?</th><th>Valid JSON?</th><th>Reply (first 300 chars) or error</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const OPTS = {
+  expectedInputs: [{type: "text", languages: ["en"]}],
+  expectedOutputs: [{type: "text", languages: ["en"]}],
+};
+const ASK = 'Reply with JSON: {"type":"answer","content":"hello"}';
+const SCHEMA = {type: "object", required: ["type", "content"], additionalProperties: false,
+  properties: {type: {type: "string", enum: ["answer"]}, content: {type: "string"}}};
+const LONG_INSTR = "INSTRUCTIONS\nYou are the producer on the Creator Agent Studio website. You help YouTube and X creators turn one topic into a creative brief, a YouTube script, an X thread and a storyboard, by directing four specialist agents. " +
+  "Start each turn by reading the studio state. Call the content strategist first, then the scriptwriter and thread writer, then the storyboard artist. ".repeat(6) +
+  '\nAnswer with exactly one JSON object: {"type":"answer","content":"..."}\nUser: Create the package for the topic "a child with autism".';
+const ECHO = /User:|INSTRUCTIONS|TopK|Temp:|CPU backend|Fastest inference/i;
+let lines = [];
+
+function env(text) { $("#env").textContent += text + "\n"; lines.push(text); }
+function status(t) { $("#status").textContent = t; }
+function row(r) {
+  const tr = document.createElement("tr");
+  tr.className = r.error || r.echo === "YES" || r.json === "no" ? "bad" : "good";
+  const cells = [r.test, r.ms ?? "", r.sampling ?? "", r.quota ?? "", r.echo ?? "", r.json ?? "", r.error ? "ERROR " + r.error : r.reply];
+  cells.forEach((c, i) => { const td = document.createElement("td"); td.textContent = String(c); if (i === 6) td.className = "reply"; tr.appendChild(td); });
+  $("#rows").appendChild(tr);
+  lines.push(`[${r.test}] ms=${r.ms} sampling=${r.sampling} quota=${r.quota} echo=${r.echo} json=${r.json} :: ${r.error ? "ERROR " + r.error : r.reply}`);
+}
+function isJson(s) { try { const o = JSON.parse(s.trim()); return o && typeof o === "object" ? "yes" : "no"; } catch { return "no"; } }
+
+async function test(name, makeSession, prompt = ASK, promptOpts = {}) {
+  status(`Running: ${name}…`);
+  const t0 = performance.now();
+  let s;
+  try {
+    s = await makeSession();
+    let usage = "";
+    try { if (s.measureInputUsage) usage = await s.measureInputUsage(prompt, promptOpts); } catch (e) { usage = "measure ERR " + e.message; }
+    const t1 = performance.now();
+    const out = await s.prompt(prompt, promptOpts);
+    row({test: name, ms: Math.round(performance.now() - t1),
+      sampling: `${s.temperature} / ${s.topK}`, quota: `${s.inputQuota} / ${usage}`,
+      echo: ECHO.test(out) ? "YES" : "no", json: isJson(out), reply: out.slice(0, 300)});
+  } catch (e) {
+    row({test: name, ms: Math.round(performance.now() - t0), error: `${e.name}: ${e.message}`});
+  } finally { try { s?.destroy(); } catch {} }
+}
+
+async function run() {
+  $("#rows").innerHTML = ""; $("#env").textContent = ""; lines = [];
+  env("Time: " + new Date().toISOString());
+  env("User agent: " + navigator.userAgent);
+  const LM = globalThis.LanguageModel;
+  if (!LM) { env("LanguageModel API: NOT AVAILABLE in this page"); status("DONE (no LanguageModel API)"); return; }
+  env("LanguageModel API: present");
+  let avail;
+  try { avail = await LM.availability(OPTS); } catch (e) { avail = "ERR " + e.message; }
+  env("availability(en): " + avail);
+  try { env("availability(no options): " + await LM.availability()); } catch (e) { env("availability(no options): ERR " + e.message); }
+  try { env("params(): " + JSON.stringify(await LM.params?.())); } catch (e) { env("params(): ERR " + e.message); }
+  if (avail !== "available") {
+    status(`Model is "${avail}", not "available". Click "Run again" once (a click lets Chrome download it), wait, then run again.`);
+    if (!navigator.userActivation?.isActive) return;
+  }
+
+  await test("1 fresh, plain prompt, no schema", () => LM.create(OPTS));
+  await test("1b fresh + JSON schema (responseConstraint)", () => LM.create(OPTS), ASK, {responseConstraint: SCHEMA});
+  await test("2 clone of a base session + schema (old site path)", async () => { const b = await LM.create(OPTS); return b.clone(); }, ASK, {responseConstraint: SCHEMA});
+  await test("3 system role via initialPrompts + schema", () => LM.create({...OPTS,
+    initialPrompts: [{role: "system", content: "You only answer with one JSON object."}]}), ASK, {responseConstraint: SCHEMA});
+  await test("4 create with temperature 0.2, topK 32", () => LM.create({...OPTS, temperature: 0.2, topK: 32}));
+  await test("5 long producer-style prompt in body + schema (site path)", () => LM.create({...OPTS, temperature: 0.2, topK: 32}), LONG_INSTR, {responseConstraint: SCHEMA});
+  await test("6 long instructions as system role + schema", () => LM.create({...OPTS,
+    initialPrompts: [{role: "system", content: LONG_INSTR.split("\nUser:")[0]}]}), 'Create the package for the topic "a child with autism".', {responseConstraint: SCHEMA});
+  await test("7 fresh, plain 'Hello'", () => LM.create(OPTS), "Hello");
+  status("DONE. Copy the results with the button above.");
+}
+
+$("#run").addEventListener("click", run);
+$("#copy").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(lines.join("\n")); $("#copy").textContent = "Copied"; } catch { $("#copy").textContent = "Copy failed: select the page text"; }
+});
+run();
+</script>
+</body>
+</html>

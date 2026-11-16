@@ -1,0 +1,87 @@
+{
+  "brand": "Creator Agent Studio",
+  "networks": [
+    {
+      "name": "creator_agent_studio",
+      "front_man": "studio_producer",
+      "hocon": "./creator_agent_studio.network.json",
+      "description": "Give me a topic. My agents write the brief, a YouTube script, an X thread and a storyboard, right onto this page.",
+      "tags": [
+        "agentified-website",
+        "content-creation",
+        "youtube",
+        "x"
+      ],
+      "sample_queries": [
+        "Make a 3-minute video and a 5-post X thread about why sleep matters for students.",
+        "Write everything in Simplified Chinese about cheap weekend trips around Chengdu, with a calm tone.",
+        "Shorten the X thread to 4 posts and make the hook punchier.",
+        "Open the first post of my thread in X so I can post it.",
+        "Upload the finished video to my YouTube channel."
+      ]
+    }
+  ],
+  "llm_router": {
+    "base_url": "https://api.otari.ai/api/v1",
+    "mock": false,
+    "byok_router": "https://api.otari.ai/api/v1"
+  },
+  "allowed_peers": [
+    "https://creator-hook-lab.pages.dev"
+  ],
+  "peer_policy": {
+    "mode": "closed",
+    "deny_origins": [],
+    "note": "Local agents and page-local actions, plus the partner sites in allowed_peers, which this site calls only after the visitor agrees on a card."
+  },
+  "agent_mcp": {
+    "protocol": "nsdeploy-agent-mcp/v1",
+    "network": "creator_agent_studio",
+    "front_man": "studio_producer",
+    "available": false,
+    "reason": "This is a static bundle; a public MCP facade requires an application host."
+  },
+  "theme": {
+    "primary": "#b4232c"
+  },
+  "linking": {
+    "protocol": "nsdeploy-link/v1",
+    "exports": [
+      {
+        "network": "creator_agent_studio",
+        "front_man": "studio_producer",
+        "aliases": [
+          "creator_agent_studio",
+          "studio_producer"
+        ],
+        "url": "creator_agent_studio"
+      }
+    ],
+    "imports": [],
+    "link_updates": {
+      "mode": "browser-local"
+    }
+  },
+  "deployment": {
+    "mode": "static",
+    "self_contained_runtime": true,
+    "browser_mock": false,
+    "direct_byok": true,
+    "direct_mcp_requires_cors": true,
+    "public_mcp_facade": false
+  },
+  "actions": {
+    "version": 1,
+    "module": "./site-actions.js",
+    "bridge": "./bridge/action-bridge.html",
+    "agentTools": [
+      "get_studio_state",
+      "set_studio_settings",
+      "save_brief",
+      "save_youtube_script",
+      "save_x_thread",
+      "save_storyboard",
+      "open_x_compose"
+    ]
+  }
+}

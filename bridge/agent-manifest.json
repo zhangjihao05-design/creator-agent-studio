@@ -1,0 +1,10 @@
+{
+  "networks": [
+    {
+      "name": "creator_agent_studio"
+    }
+  ],
+  "actions": {
+    "version": 1
+  }
+}

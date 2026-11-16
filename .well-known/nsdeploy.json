@@ -1,0 +1,18 @@
+{
+  "protocol": "nsdeploy-link/v1",
+  "exports": [
+    {
+      "network": "creator_agent_studio",
+      "front_man": "studio_producer",
+      "aliases": [
+        "creator_agent_studio",
+        "studio_producer"
+      ],
+      "url": "creator_agent_studio"
+    }
+  ],
+  "imports": [],
+  "link_updates": {
+    "mode": "browser-local"
+  }
+}
